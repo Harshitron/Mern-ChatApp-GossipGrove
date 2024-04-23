@@ -1,37 +1,59 @@
-import React from 'react'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import useLogin from '../../hooks/useLogin';
 
 const Login = () => {
+
+  const [userName, setuserName] = useState("");
+	const [password, setPassword] = useState("");
+
+
+  const {loading, login} = useLogin()
+
+  const handleSubmit = async (e) => {
+		e.preventDefault();
+		await login(userName, password);
+	};
+
   return (
     <div className='flex flex-col items-center justify-center min-w-96 mx-auto '>
 
-      <div className='w-full p-6 rounded-lg shadow-lg bg-gray-100 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 '>
+      <div className='w-full p-6 rounded-lg shadow-lg bg-gray-300 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 '>
 
         <h1 className='text-3xl font-semibold text-center text-gray-300'> 
           Login 
           <span className='text-purple-500'> GossipGrove</span>
         </h1>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <div>
             <label className='label p-2'>
-              <span className='text-base label-text'>Username</span>
+              <span className='text-base label-text'>userName</span>
             </label>
-            <input type='text' placeholder='Enter Username' className='w-full input input-bordered h-10'/>
+            <input type='text' placeholder='Enter userName' className='w-full input input-bordered h-10'
+              value={userName}
+              onChange={(e) => setuserName(e.target.value)}
+              />
           </div>
     
           <div>
             <label className='label'>
                 <span className='text-base label-text'>Password</span>
             </label>
-            <input type='password' placeholder='Enter Password' className='w-full input input-bordered h-10'/>
+            <input type='password' placeholder='Enter Password' className='w-full input input-bordered h-10'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
-          <a href='#' className='text-sm  hover:underline hover:text-blue-600 mt-2 inline-block'>
+          <Link to='/signup' className='text-sm  hover:underline hover:text-blue-600 mt-2 inline-block'>
  						{"Don't"} have an account?
- 					</a>
+ 					</Link>
 
           <div>
-            <button className='btn btn-block btn-sm mt-2'>Login</button>
+          <button className='btn btn-block btn-sm mt-2' disabled={loading}>
+							{loading ? <span className='loading loading-spinner '></span> : "Login"}
+						</button>
           </div>
         </form>
 
@@ -43,54 +65,3 @@ const Login = () => {
 }
 
 export default Login
-
-
-
-
-// STARTER CODE OF THIS FILE
-
-/* import React from 'react'
-
-const Login = () => {
-  return (
-    <div className='flex flex-col items-center justify-center min-w-96 mx-auto '>
-
-      <div className='w-full p-6 rounded-lg shadow-md bg-green-100 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-10 '>
-
-        <h1 className='text-3xl font-semibold text-center text-gray-300'> 
-          Login 
-          <span className='text-purple-500'> GossipGrove</span>
-        </h1>
-
-        <form>
-          <div>
-            <label className='label p-2'>
-              <span className='text-base label-text'>Username</span>
-            </label>
-            <input type='text' placeholder='Enter Username' className='w-full input input-bordered h-10'/>
-          </div>
-    
-          <div>
-            <label className='label'>
-                <span className='text-base label-text'>Password</span>
-            </label>
-            <input type='password' placeholder='Enter Password' className='w-full input input-bordered h-10'/>
-          </div>
-
-          <a href='#' className='text-sm  hover:underline hover:text-blue-600 mt-2 inline-block'>
- 						{"Don't"} have an account?
- 					</a>
-
-          <div>
-            <button className='btn btn-block btn-sm mt-2'>Login</button>
-          </div>
-        </form>
-
-      </div>
-      
-
-    </div>
-  )
-}
-
-export default Login */

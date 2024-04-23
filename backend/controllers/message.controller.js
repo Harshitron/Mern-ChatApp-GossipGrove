@@ -4,7 +4,7 @@ import Message from "../models/message.model.js";
 export const sendMessage = async(req, res)=>{
     try {
         const {message} = req.body; // first we get the message as an input from the user
-        const{id:receiverId} = req.params; // the id of the receiver from params
+        const{id: receiverId} = req.params; // the id of the receiver from params
         const senderId = req.user._id; // the id of the sender from protectRoute
 
         // this function checks if there is any conversation between the receiver and the sender
@@ -21,9 +21,9 @@ export const sendMessage = async(req, res)=>{
 
         // after checking if the conversation is there then we create a newMessage
         const newMessage = new Message({
-            senderId: senderId,
-            receiverId: receiverId,
-            message: message
+            senderId ,
+            receiverId,
+            message
         })
 
         // after creating the newMessage we push the newMessage id to the conversation
@@ -64,7 +64,7 @@ export const getMessages = async(req, res)=>{
         // instead of message id we will get exact message because of populate it will be exact message instead of message reference
 
         if(!conversation){
-            return res.status(200).json({error: "Conversation not found"});
+            return res.status(200).json([]);
         }
 
         const messages = conversation.messages
