@@ -1,62 +1,19 @@
-import React from 'react'
-
 const GenderCheckbox = ({ onCheckboxChange, selectedGender }) => {
   return (
-    <div className='flex'>
-        <div className='form-control'>
-            <label className={`label gap-2 cursor-pointer ${selectedGender === "male" ? "selected" : ""}`}>
+    <div className="flex justify-center space-x-4">
+      {['male', 'female'].map((gender) => (
+        <label key={gender} className="inline-flex items-center">
+          <input
+            type="checkbox"
+            className="form-checkbox h-5 w-5 text-green-500"
+            checked={selectedGender === gender}
+            onChange={() => onCheckboxChange(gender)}
+          />
+          <span className="ml-2 text-gray-700 capitalize">{gender}</span>
+        </label>
+      ))}
+    </div>
+  );
+};
 
-                <span className='label-text'>Male</span>
-                <input type='checkbox' className='checkbox checkbox-primary' 
-                    checked = {selectedGender === 'male'}
-                    onChange={() => onCheckboxChange("male")}
-                />
-
-            </label>
-        </div>
-        <div className='form-control'>
-            <label className={`label gap-2 cursor-pointer ${selectedGender === "female" ? "selected" : ""}`}>
-
-                <span className='label-text'>Female</span>
-                <input type='checkbox' className='checkbox checkbox-primary' 
-                    checked = {selectedGender === 'female'}
-                    onChange={() => onCheckboxChange("female")}
-                />
-
-            </label>
-        </div>
-      </div>
-  )
-}
-
-export default GenderCheckbox
-
-
-// STARTER CODE FOR CHECKBOX
-/* import React from 'react'
-
-const GenderCheckbox = () => {
-  return (
-    <div className='flex'>
-        <div className='form-control'>
-            <label className={`label gap-2 cursor-pointer`}>
-
-                <span className='label-text'>Male</span>
-                <input type='checkbox' className='checkbox checkbox-primary' />
-
-            </label>
-        </div>
-        <div className='form-control'>
-            <label className={`label gap-2 cursor-pointer`}>
-
-                <span className='label-text'>Female</span>
-                <input type='checkbox' className='checkbox checkbox-primary' />
-
-            </label>
-        </div>
-      </div>
-  )
-}
-
-export default GenderCheckbox
- */
+export default GenderCheckbox;

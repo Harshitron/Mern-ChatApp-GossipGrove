@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+// MessageContainer.jsx
+import React, { useEffect } from 'react';
 import useConversation from "../../zustand/useConversation";
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
@@ -6,42 +7,42 @@ import { TiMessages } from "react-icons/ti";
 import { useAuthContext } from "../../context/AuthContext";
 
 const MessageContainer = () => {
-	const { selectedConversation, setSelectedConversation } = useConversation();
+  const { selectedConversation, setSelectedConversation } = useConversation();
+  const { authUser } = useAuthContext();
 
-	useEffect(() => {
-		// cleanup function (unmounts)
-		return () => setSelectedConversation(null);
-	}, [setSelectedConversation]);
+  useEffect(() => {
+    return () => setSelectedConversation(null);
+  }, [setSelectedConversation]);
 
-	return (
-		<div className='md:min-w-[450px] flex flex-col'>
-			{!selectedConversation ? (
-				<NoChatSelected />
-			) : (
-				<>
-					{/* Header */}
-					<div className='bg-slate-600 px-4 py-8 mb-2'>
-						<span className='label-text text-xl'>To:</span>{" "}
-						<span className='text-green-400 font-bold text-2xl'>{selectedConversation.fullName}</span>
-					</div>
-					<Messages />
-					<MessageInput />
-				</>
-			)}
-		</div>
-	);
+  return (
+    <div className="flex flex-col h-full">
+      {!selectedConversation ? (
+        <NoChatSelected authUser={authUser} />
+      ) : (
+        <>
+          <div className="bg-base-300 p-4">
+            <h2 className="text-xl font-semibold">
+              Chat with <span className="text-primary">{selectedConversation.fullName}</span>
+            </h2>
+          </div>
+          <div className="flex-1 overflow-y-auto">
+            <Messages />
+          </div>
+          <MessageInput />
+        </>
+      )}
+    </div>
+  );
 };
+
+const NoChatSelected = ({ authUser }) => (
+  <div className="flex items-center justify-center h-full">
+    <div className="text-center">
+      <h2 className="text-3xl font-bold mb-4">Welcome, {authUser.fullName}!</h2>
+      <p className="text-xl text-gray-500 mb-6">Select a chat to start messaging</p>
+      <TiMessages className="text-8xl text-primary mx-auto" />
+    </div>
+  </div>
+);
+
 export default MessageContainer;
-
-const NoChatSelected = () => {
-	const { authUser } = useAuthContext();
-	return (
-		<div className='flex items-center justify-center w-full h-full'>
-			<div className='px-4 text-center sm:text-lg md:text-xl text-gray-200 font-semibold flex flex-col items-center gap-2'>
-				<p>Welcome 👋 {authUser.fullName} ❄</p>
-				<p>Select a chat to start messaging</p>
-				<TiMessages className='text-3xl md:text-6xl text-center' />
-			</div>
-		</div>
-	);
-};
